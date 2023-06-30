@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Success</title>
+</head>
+<body>
+    <h2>신고가 접수되었습니다.</h2>
+    <p>신고 내용이 성공적으로 접수되었습니다.</p>
+    <p><a href="/report">돌아가기</a></p>
+  
+    
+ <!--     <a href="/save-rating" class="btn btn-primary">돌아가기</a> -->
+    <!-- 모달 창-->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">신고하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div th:replace="shj-report-form :: reportForm"></div>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+<!--   shj-report-form.html -->
+
+<form id="reportForm" action="/report" method="post">
+  <div class="form-group">
+    <label for="report">신고 사유:</label>
+    <textarea id="report" name="report" class="form-control"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">신고하기</button>
+</form>
+
+
+      <script>
+      $.ajax({
+    	    type: 'POST',
+    	    url: url,
+    	    data: JSON.stringify(formData),  // Convert formData to JSON string
+    	    contentType: 'application/json',  // Specify content type
+    	    success: function(response) {
+    	        // 제출 성공 후 메시지 변경
+    	     //   $('#reportModal .modal-body').html('<h2>신고가 접수되었습니다.</h2><p>신고 내용이 성공적으로 접수되었습니다.</p>');
+    	//    },
+    	//  console.log("Success callback triggered");
+    	    	 $('#reportModal .modal-body').html('<h2>신고가 접수되었습니다.</h2><p>신고 내용이 성공적으로 접수되었습니다.</p><a href="/save-rating" class="btn btn-primary">이전 단계로 돌아가기</a>');
+    	    },
+    	    error: function(xhr, status, error) {
+    	        // 신고 처리 실패 시 에러 메시지 등을 처리합니다.
+    	        $('#reportModal .modal-body').html('신고 처리 중 오류가 발생했습니다.');
+    	    }
+    	});
+
+  $(function() {
+    $('#reportForm').submit(function(e) {
+      e.preventDefault();
+
+      var form = $(this);
+      var url = form.attr('action');
+      var formData = form.serialize();
+
+    
+    });
+  });
+</script>
+     
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Star Rating Form and Ratings</title>
+    <link th:href="@{/css/shj-star.css}" rel="stylesheet">
+   <!--css파일 하나로 합침  <link th:href="@{/css/shj-starrating.css}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+window.onload = function() {
+    var element = document.getElementById("th:text=${rating.id}");
+  //  element.scrollIntoView();
+  if(element){
+	  element.scrollIntoView();
+  }
+}
+$(document).ready(function() {
+    // 버튼 클릭 시 모달 창 표시
+    $('.btn-report').on('click', function() {
+        var id = $(this).data('id');
+        $('#reportModal').modal('show');
+        $('#reportModal input[name="ratingId"]').val(id);
+    });
+});
+
+</script>
+    
+</head>
+<body>
+
+<h1>리뷰</h1>
+<form th:action="@{/save-rating}" th:object="${rating}" method="post" id="ratingForm" novalidate>
+    <fieldset>
+        <span class="text-bold">별점을 선택해주세요</span>
+        <input type="radio" name="stars" value="5" id="rate1" required><label for="rate1">★</label>
+        <input type="radio" name="stars" value="4" id="rate2" required><label for="rate2">★</label>
+        <input type="radio" name="stars" value="3" id="rate3" required><label for="rate3">★</label>
+        <input type="radio" name="stars" value="2" id="rate4" required><label for="rate4">★</label>
+        <input type="radio" name="stars" value="1" id="rate5" required><label for="rate5">★</label>
+    </fieldset>
+    <div>
+        <textarea class="col-auto form-control" type="text" id="review"   name="review" required ></textarea>
+                <!--   placeholder="리뷰를 등록하세요!!"  -->
+                
+    </div>
+    <div>
+        <button type="submit">등록</button>
+    </div>
+</form><br>
+
+
+
+<div th:each="rating, stat : ${ratings}">
+<!-- <div th:each="rating, ${ratings}">      -->
+  <div class="rating-header">
+    <span class="rating-item"> <span th:text="${stat.count}"></span></span>
+    <!-- <span>번호: </span><span th:text="${rating.id}"></span>  db id 번호-->
+    <div class="rating-item">
+        <span th:each="i: ${#numbers.sequence(1, rating.stars)}">
+            <i class="fa fa-star star-yellow"></i>
+        </span>
+
+        <th:block th:if="${rating.stars < 5}">
+            <span th:each="i: ${#numbers.sequence(rating.stars+1, 5)}">
+                <i class="fa fa-star-o"></i>
+            </span>
+        </th:block>
+    </div>
+    <span class="rating-item"> <span th:text="${rating.username}"></span></span>
+   <p>작성일시: <span th:text="${#dates.format(rating.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+</div>
+  
+    <textarea class="col-auto form-control" type="text" id="review" th:readonly="true" th:text="${rating.review}">
+      
+    </textarea>
+   <!-- 신고 기능 부분  -->
+<div>
+  <button type="button" class="btn btn-danger btn-report"
+          data-toggle="modal" data-target="#reportModal"
+          th:attr="data-id=${rating.id}">
+      신고
+  </button>
+</div>
+<!-- 모달 창 -->
+<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportModalLabel">신고하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div th:replace="shj-report-form :: reportForm"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+<a th:href="@{/}">메인으로</a>
+</body>
+</html>
