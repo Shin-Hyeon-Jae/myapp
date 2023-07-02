@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Report Form</title>
+</head>
+<body>
+ <!-- reportForm fragment -->
+<div th:fragment="reportForm">
+  <form th:action="@{/report}" method="post">
+    <div class="form-group">
+      <input type="hidden" name="ratingId" th:value="${rating.id}" />
+      <label for="report">신고 사유</label>
+      <textarea class="form-control" name="report" rows="4" cols="50" placeholder="신고 사유를 입력하세요" required autocomplete="off"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">제출</button>
+  </form>
+</div>
+
+ <!-- AJAX 요청 처리 -->
+<script th:inline="javascript">
+  $(function() {
+    $('#reportForm').submit(function(e) {
+      e.preventDefault(); // 기본 동작인 폼의 서버 전송을 막습니다.
+
+      var form = $(this);
+      var url = form.attr('action');
+      var formData = form.serialize(); // 폼 데이터를 직렬화합니다.
+
+      $.ajax({
+    	    type: 'POST',
+    	    url: url,
+    	    data: 
+    	    	//JSON.stringify(
+    	    			formData,  // Convert formData to JSON string
+    	    //contentType: 'application/json',  // Specify content type
+    	    success: function(response) {
+    	        // 제출 성공 후 메시지 변경
+    	        $('#reportModal .modal-body').html('<h2>신고가 접수되었습니다.</h2><p>신고 내용이 성공적으로 접수되었습니다.</p><a href="/save-rating" class="btn btn-primary">이전 단계로 돌아가기</a>');
+    	    },
+    	    error: function(xhr, status, error) {
+    	        // 신고 처리 실패 시 에러 메시지 등을 처리합니다.
+    	        $('#reportModal .modal-body').html('신고 처리 중 오류가 발생했습니다.');
+    	    }
+    	});
+
+    });
+  });
+ 
+</script>
+ 
+</body>
+</html>
+
