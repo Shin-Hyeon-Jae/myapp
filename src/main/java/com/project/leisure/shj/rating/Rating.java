@@ -1,7 +1,9 @@
 package com.project.leisure.shj.rating;
 
 import jakarta.persistence.*;
+
 import jakarta.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +23,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Table(name = "ratings2")
 public class Rating {
 
-	 
-	   
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,18 +35,13 @@ public class Rating {
     private Integer stars;
 
     @Column(nullable = false)
+
     @NotBlank(message = "리뷰를 입력해주세요.")
+
+
     private String review;
 
-//    @Column
-//    @CreatedDate
-//    private LocalDate createAt;
-  
-//    @Column(name = "created_at")
-//    private ZonedDateTime createdAt;
- // 필드명을 "created_at"으로 수정
-//    @Column(name = "create_at")
-//    private LocalDateTime createdAt;
+
     @Column(name = "create_at", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp

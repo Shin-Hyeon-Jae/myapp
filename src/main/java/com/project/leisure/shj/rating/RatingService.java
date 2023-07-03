@@ -40,7 +40,6 @@ public class RatingService {
 				//.orElse(null);
 	}
 
-
 	public void save(Rating rating) {
 		// Here we are saving the Rating
 		ratingRepository.save(rating);
@@ -50,6 +49,7 @@ public class RatingService {
 		// TODO: Check if the reason is duplicate
 		return false;
 	}
+
 
 	
 }

@@ -17,7 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
 import jakarta.validation.Valid;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,18 +52,16 @@ public class RatingController {
         return "shj-save-rating";
     }
 
-//    @PostMapping("/save-rating")
-//    public String saveRating(@ModelAttribute Rating rating, Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentUserName = authentication.getName();
-//        rating.setUsername(currentUserName);
-//
-//        ratingService.saveRating(rating);
     @PostMapping("/save-rating")
     public String saveRating(@Valid @ModelAttribute Rating rating, BindingResult bindingResult, Model model) {
+
+    @PostMapping("/save-rating")
+    public String saveRating(@ModelAttribute Rating rating, Model model) {
+>>>>>>> 78721e0f4bbb0327398b7366e6233298c0f0a019
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         rating.setUsername(currentUserName);
+
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("rating", rating); // Keep entered data
@@ -69,6 +71,10 @@ public class RatingController {
         }
 
         ratingService.saveRating(rating);
+
+        ratingService.saveRating(rating);
+
+
         // Save the new rating and render the form and ratings again.
         model.addAttribute("rating", new Rating());
         model.addAttribute("ratings", ratingService.getAllRatings());
@@ -88,21 +94,24 @@ public class RatingController {
         return "redirect:/save-rating"; // 원래의 페이지 경로로 수정하세요
     }
 
-    //415에러 @RequestBody 를 @ModelAttribute로 변경 
+
+    
     
     @PostMapping("/report")
     public ResponseEntity<String> handleReportRequest(@ModelAttribute ReportForm reportForm) {
-  
+
+   
     	 Long ratingId = Long.valueOf(reportForm.getRatingId());
     	    String report = reportForm.getReport();
 
-    	  
+    	   // Rating rating = ratingService.findById(ratingId);
     	    Optional<Rating> optionalRating = ratingService.findById(ratingId);
         
     	    if (optionalRating.isEmpty()) {
-    
+      //  if (rating == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 게시글을 찾을 수 없습니다.");
         }
+
 
 
     	    Rating rating = optionalRating.get(); // 추가한 코드

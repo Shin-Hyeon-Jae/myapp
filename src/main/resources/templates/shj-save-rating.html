@@ -33,6 +33,7 @@ $(document).ready(function() {
 });
 
 </script>
+<<<<<<< HEAD
    <script>
 $(document).ready(function() {
     $('#ratingForm').on('submit', function(e) {
@@ -46,11 +47,18 @@ $(document).ready(function() {
 });
 </script>
  
+=======
+    
+>>>>>>> 78721e0f4bbb0327398b7366e6233298c0f0a019
 </head>
 <body>
 
 <h1>리뷰</h1>
+<<<<<<< HEAD
 <form th:action="@{/save-rating}" th:object="${rating}" method="post" id="shj-ratingForm" novalidate>
+=======
+<form th:action="@{/save-rating}" th:object="${rating}" method="post" id="ratingForm" novalidate>
+>>>>>>> 78721e0f4bbb0327398b7366e6233298c0f0a019
     <fieldset>
         <span class="text-bold">별점을 선택해주세요</span>
         <input type="radio" name="stars" value="5" id="rate1" required><label for="rate1">★</label>
@@ -60,7 +68,11 @@ $(document).ready(function() {
         <input type="radio" name="stars" value="1" id="rate5" required><label for="rate5">★</label>
     </fieldset>
     <div>
+<<<<<<< HEAD
         <textarea class="col-auto form-control" type="text" id="review"   name="review" required title="" ></textarea>
+=======
+        <textarea class="col-auto form-control" type="text" id="review"   name="review" required ></textarea>
+>>>>>>> 78721e0f4bbb0327398b7366e6233298c0f0a019
                 <!--   placeholder="리뷰를 등록하세요!!"  -->
                 
     </div>
