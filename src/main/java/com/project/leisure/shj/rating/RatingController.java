@@ -55,9 +55,8 @@ public class RatingController {
     @PostMapping("/save-rating")
     public String saveRating(@Valid @ModelAttribute Rating rating, BindingResult bindingResult, Model model) {
 
-    @PostMapping("/save-rating")
-    public String saveRating(@ModelAttribute Rating rating, Model model) {
->>>>>>> 78721e0f4bbb0327398b7366e6233298c0f0a019
+
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = authentication.getName();
         rating.setUsername(currentUserName);
